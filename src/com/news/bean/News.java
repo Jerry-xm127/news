@@ -2,7 +2,6 @@ package com.news.bean;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class News implements Serializable{
 	
@@ -16,14 +15,14 @@ public class News implements Serializable{
 	private Column column;					//栏目信息
 	private Date newsDate;					//发布时间
 	private Integer browseCount;			//浏览次数
-	private List<Keywords> keyList;			//关键字信息
+	private Keywords keywords;				//关键字信息
 	
 	public News() {
 		super();
 	}
 
 	public News(Integer newsId, String newsTitle, String newsIntro, String newsContent, String newsAuthor,
-			Column column, Date newsDate, Integer browseCount, List<Keywords> keyList) {
+			Column column, Date newsDate, Integer browseCount, Keywords keywords) {
 		super();
 		this.newsId = newsId;
 		this.newsTitle = newsTitle;
@@ -33,7 +32,7 @@ public class News implements Serializable{
 		this.column = column;
 		this.newsDate = newsDate;
 		this.browseCount = browseCount;
-		this.keyList = keyList;
+		this.keywords = keywords;
 	}
 
 	public Integer getNewsId() {
@@ -100,19 +99,19 @@ public class News implements Serializable{
 		this.browseCount = browseCount;
 	}
 
-	public List<Keywords> getKeyList() {
-		return keyList;
+	public Keywords getKeywords() {
+		return keywords;
 	}
 
-	public void setKeyList(List<Keywords> keyList) {
-		this.keyList = keyList;
+	public void setKeywords(Keywords keywords) {
+		this.keywords = keywords;
 	}
 
 	@Override
 	public String toString() {
 		return "News [newsId=" + newsId + ", newsTitle=" + newsTitle + ", newsIntro=" + newsIntro + ", newsContent="
 				+ newsContent + ", newsAuthor=" + newsAuthor + ", column=" + column + ", newsDate=" + newsDate
-				+ ", browseCount=" + browseCount + ", keyList=" + keyList + "]";
+				+ ", browseCount=" + browseCount + ", keywords=" + keywords + "]";
 	}
 	
 	
