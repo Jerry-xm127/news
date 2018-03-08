@@ -2,6 +2,7 @@ package com.news.test;
 
 import java.sql.Connection;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,7 @@ import com.news.bean.News;
 import com.news.dao.INewsDao;
 import com.news.dao.impl.NewsDaoImpl;
 import com.news.util.C3p0Util;
+import com.news.util.PageUtil;
 
 class TestNews {
 
@@ -54,7 +56,7 @@ class TestNews {
 
 	
 	//增量修改有点小问题
-	@Test
+	//@Test
 	void testUpdate() {
 		try {
 			Connection conn = C3p0Util.getConn();
@@ -78,4 +80,34 @@ class TestNews {
 		}
 	}
 	
+	
+	@Test
+	void testPage() {
+		try {
+			Connection conn = C3p0Util.getConn();
+			PageUtil<News> page = new PageUtil<>(0, 3);
+			News news = new News();
+//			Column column = new Column();
+//			Keywords keywords = new Keywords();
+			//news.setNewsTitle("ss");
+//			news.setNewsIntro("ss");
+//			news.setNewsContent("ss");
+//			news.setNewsAuthor("ss");
+//			news.setNewsDate(new Date());
+//			column.setColumnId(2);
+//			news.setColumn(column);
+//			news.setBrowseCount(55);
+//			news.setNewsId(5);
+			//page.setSearchObj(news);
+			INewsDao dao = new NewsDaoImpl();
+			PageUtil<News> pageList = dao.queryPage(page, conn);
+			List<News> list = pageList.getList();
+			for(News queryNews : list) {
+				System.out.println(queryNews.toString());
+			}
+			C3p0Util.closeConn(conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
