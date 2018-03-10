@@ -1,7 +1,7 @@
 package com.news.bean;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class News implements Serializable{
 	
@@ -13,7 +13,7 @@ public class News implements Serializable{
 	private String newsContent;				//新闻内容
 	private String newsAuthor;				//新闻作者
 	private Column column;					//栏目信息
-	private Date newsDate;					//发布时间
+	private Timestamp newsDate;				//发布时间
 	private Integer browseCount;			//浏览次数
 	private Keywords keywords;				//关键字信息
 	
@@ -22,7 +22,7 @@ public class News implements Serializable{
 	}
 
 	public News(Integer newsId, String newsTitle, String newsIntro, String newsContent, String newsAuthor,
-			Column column, Date newsDate, Integer browseCount, Keywords keywords) {
+			Column column, Timestamp newsDate, Integer browseCount, Keywords keywords) {
 		super();
 		this.newsId = newsId;
 		this.newsTitle = newsTitle;
@@ -32,6 +32,19 @@ public class News implements Serializable{
 		this.column = column;
 		this.newsDate = newsDate;
 		this.browseCount = browseCount;
+		this.keywords = keywords;
+	}
+
+	
+	public News(String newsTitle, String newsIntro, String newsContent, String newsAuthor, Column column,
+			Timestamp newsDate, Keywords keywords) {
+		super();
+		this.newsTitle = newsTitle;
+		this.newsIntro = newsIntro;
+		this.newsContent = newsContent;
+		this.newsAuthor = newsAuthor;
+		this.column = column;
+		this.newsDate = newsDate;
 		this.keywords = keywords;
 	}
 
@@ -83,12 +96,12 @@ public class News implements Serializable{
 		this.column = column;
 	}
 
-	public Date getNewsDate() {
+	public Timestamp getNewsDate() {
 		return newsDate;
 	}
 
-	public void setNewsDate(Date newsDate) {
-		this.newsDate = newsDate;
+	public void setNewsDate(Timestamp newsTimestamp) {
+		this.newsDate = newsTimestamp;
 	}
 
 	public Integer getBrowseCount() {
@@ -110,7 +123,7 @@ public class News implements Serializable{
 	@Override
 	public String toString() {
 		return "News [newsId=" + newsId + ", newsTitle=" + newsTitle + ", newsIntro=" + newsIntro + ", newsContent="
-				+ newsContent + ", newsAuthor=" + newsAuthor + ", column=" + column + ", newsDate=" + newsDate
+				+ newsContent + ", newsAuthor=" + newsAuthor + ", column=" + column + ", newsTimestamp=" + newsDate
 				+ ", browseCount=" + browseCount + ", keywords=" + keywords + "]";
 	}
 	

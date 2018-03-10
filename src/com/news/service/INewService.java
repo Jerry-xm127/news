@@ -4,5 +4,6 @@ package com.news.service;
 import com.news.bean.News;
 
 public interface INewService {
-	public void release(News news);
+	//新闻的添加发布
+	public void release(News news) throws Exception;
 }

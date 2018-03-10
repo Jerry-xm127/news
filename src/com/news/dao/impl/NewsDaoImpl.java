@@ -10,7 +10,6 @@ import com.news.bean.Column;
 import com.news.bean.Keywords;
 import com.news.bean.News;
 import com.news.dao.INewsDao;
-import com.news.util.DateUtil;
 import com.news.util.PageUtil;
 
 public class NewsDaoImpl implements INewsDao{
@@ -23,17 +22,16 @@ public class NewsDaoImpl implements INewsDao{
 		if(conn == null) {
 			throw new Exception("数据库连接加载失败");
 		}
-		String sql = "INSERT INTO news(news_title,news_intro,news_content,news_author,columns_id,news_date,browse_count,key_id) "
-				+ "VALUES(?,?,?,?,?,?,?,?);";
+		String sql = "INSERT INTO news(news_title,news_intro,news_content,news_author,columns_id,news_date,key_id) "
+				+ "VALUES(?,?,?,?,?,?,?);";
 		PreparedStatement pst = conn.prepareStatement(sql);
 		pst.setString(1, news.getNewsTitle());
 		pst.setString(2, news.getNewsIntro());
 		pst.setString(3, news.getNewsContent());
 		pst.setString(4, news.getNewsAuthor());
 		pst.setInt(5, news.getColumn().getColumnId());
-		pst.setDate(6, DateUtil.utilChangeSql(news.getNewsDate()));
-		pst.setInt(7, news.getBrowseCount());
-		pst.setInt(8, news.getKeywords().getKeyId());
+		pst.setTimestamp(6, news.getNewsDate());
+		pst.setInt(7, news.getKeywords().getKeyId());
 		pst.executeUpdate();
 		pst.close();
 		
@@ -131,7 +129,7 @@ public class NewsDaoImpl implements INewsDao{
 				}
 			}
 			if(news.getNewsDate() != null) {
-				pst.setDate(indexNewsDate, DateUtil.utilChangeSql(news.getNewsDate()));
+				pst.setTimestamp(indexNewsDate, news.getNewsDate());;
 			}
 			if(news.getBrowseCount() != null) {
 				pst.setInt(indexBrowseCount, news.getBrowseCount());
@@ -170,7 +168,7 @@ public class NewsDaoImpl implements INewsDao{
 			news.setNewsAuthor(rs.getString(5));
 			column.setColumnId(rs.getInt(6));
 			news.setColumn(column);
-			news.setNewsDate(rs.getDate(7));
+			news.setNewsDate(rs.getTimestamp(7));
 			news.setBrowseCount(rs.getInt(8));
 			keywords.setKeyId(rs.getInt(9));
 			news.setKeywords(keywords);
@@ -208,7 +206,7 @@ public class NewsDaoImpl implements INewsDao{
 			news.setNewsAuthor(rs.getString(4));
 			column.setColumnId(rs.getInt(5));
 			news.setColumn(column);
-			news.setNewsDate(rs.getDate(6));
+			news.setNewsDate(rs.getTimestamp(6));;
 			news.setBrowseCount(rs.getInt(7));
 			keywords.setKeyId(rs.getInt(8));
 			news.setKeywords(keywords);
@@ -296,7 +294,7 @@ public class NewsDaoImpl implements INewsDao{
 			news.setNewsAuthor(rs.getString(5));
 			column.setColumnName(rs.getString(6));
 			news.setColumn(column);
-			news.setNewsDate(rs.getDate(7));
+			news.setNewsDate(rs.getTimestamp(7));
 			news.setBrowseCount(rs.getInt(8));
 			keywords.setKeyName(rs.getString(9));;
 			news.setKeywords(keywords);
