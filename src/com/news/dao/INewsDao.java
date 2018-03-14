@@ -18,5 +18,7 @@ public interface INewsDao {
 	//根据id查询具体的新闻信息
 	public News queryById(Integer id, Connection conn) throws Exception;
 	//分页+搜索
-	public PageUtil<News> queryPage(PageUtil<News> page, Connection conn) throws Exception;
+	public PageUtil<News> queryPage(PageUtil<News> page,Connection conn) throws Exception;
+	//查询该表，添加过滤条件后，的记录数
+	public int queryCount(News news,Connection conn) throws Exception;
 }

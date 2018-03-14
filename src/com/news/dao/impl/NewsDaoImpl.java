@@ -225,9 +225,9 @@ public class NewsDaoImpl implements INewsDao{
 		List<News> list = new ArrayList<>();
 		PreparedStatement pst = null;
 		//动态查询sql语句与分页
-		StringBuilder sb = new StringBuilder("SELECT n.news_id,n.news_title,n.news_intro,n.news_content,n.news_author,c.column_name,n.news_date,n.browse_count,k.key_name "
+		StringBuilder sb = new StringBuilder("SELECT n.news_id,n.news_title,n.news_intro,n.news_content,n.news_author,c.column_id,c.column_name,n.news_date,n.browse_count,k.key_id,k.key_name "
 				+ "FROM news n, `column` c, keywords k "
-				+ "WHERE n.columns_id=c.column_id AND n.key_id=k.key_id ");
+				+ "WHERE n.columns_id = c.column_id AND n.key_id = k.key_id ");
 		int index = 0;
 		int indexNewsTitle = 0;
 		int indexNewsColumn = 0;
@@ -250,10 +250,11 @@ public class NewsDaoImpl implements INewsDao{
 				}
 				if(page.getSearchObj().getKeywords() != null) {
 					if(page.getSearchObj().getKeywords().getKeyName() != null) {
-						sb.append("AND k.key_name=? ");
+						sb.append("AND k.key_id=? ");
 						indexKeywords = ++index;
 					}
 				}
+				sb.append("Order By "+page.getOrder());
 				sb.append("limit ?,?");
 			}
 		}
@@ -292,11 +293,13 @@ public class NewsDaoImpl implements INewsDao{
 			news.setNewsIntro(rs.getString(3));
 			news.setNewsContent(rs.getString(4));
 			news.setNewsAuthor(rs.getString(5));
-			column.setColumnName(rs.getString(6));
+			column.setColumnId(rs.getInt(6));
+			column.setColumnName(rs.getString(7));
 			news.setColumn(column);
-			news.setNewsDate(rs.getTimestamp(7));
-			news.setBrowseCount(rs.getInt(8));
-			keywords.setKeyName(rs.getString(9));;
+			news.setNewsDate(rs.getTimestamp(8));
+			news.setBrowseCount(rs.getInt(9));
+			keywords.setKeyId(rs.getInt(10));
+			keywords.setKeyName(rs.getString(11));;
 			news.setKeywords(keywords);
 			list.add(news);
 		}
@@ -304,6 +307,62 @@ public class NewsDaoImpl implements INewsDao{
 		pst.close();
 		rs.close();
 		return page;
+	}
+
+	@Override
+	public int queryCount(News news, Connection conn) throws Exception {
+		int num = 0;
+		PreparedStatement pst = null;
+		StringBuilder sb = new StringBuilder("SELECT COUNT(n.news_id) "
+				+ "FROM news n,keywords k WHERE n.key_id=k.key_id ");
+		int index = 0;
+		int indexNewsTitle = 0;
+		int indexNewsColumn = 0;
+		int indexKeywords = 0;
+		if (news == null) {
+			throw new Exception("雇员信息为空");
+		} else {
+			if (news.getNewsTitle() != null && !"".equals(news.getNewsTitle())) {
+					sb.append("AND n.news_title= ? ");
+					indexNewsTitle = ++index;
+			}
+			if (news.getColumn() != null) {
+				if(news.getColumn().getColumnId() != null) {
+					sb.append("AND n.columns_id=? ");
+					indexNewsColumn = ++index;
+				}
+			}
+			if (news.getKeywords() != null) {
+				if(news.getKeywords().getKeyName() != null) {
+					sb.append("AND k.key_name=? ");
+					indexKeywords = ++index;
+				}
+			}
+		}
+
+		pst = conn.prepareStatement(sb.toString());
+		if (news != null) {
+			if (news.getNewsTitle() != null && !"".equals(news.getNewsTitle())) {
+					pst.setString(indexNewsTitle, "%"+news.getNewsTitle()+"%");
+			}
+			if (news.getColumn() != null) {
+				if(news.getColumn().getColumnId() != null) {
+					pst.setInt(indexNewsColumn, news.getColumn().getColumnId());
+				}
+			}
+			if (news.getKeywords() != null) {
+				if(news.getKeywords().getKeyName() != null) {
+					pst.setString(indexKeywords, news.getKeywords().getKeyName());
+				}
+			}
+		}
+		ResultSet rs = pst.executeQuery();
+		if (rs.next()) {
+			num = rs.getInt(1);
+		}
+		pst.close();
+		rs.close();
+		return num;
 	}
 
 

@@ -36,7 +36,7 @@
 
 		<dd>
 			<div class="title">
-				<span><img src="images/leftico01.png" /></span>新闻信息管理
+				<span><img src="images/leftico01.png" /></span><a href="${pageContext.request.contextPath}/newsListServlet" target="rightFrame">新闻信息管理</a>
 			</div>
 			<ul class="menuson">
 				<li><cite></cite><a href="${pageContext.request.contextPath}/newsReleaseServlet" target="rightFrame">发布新闻</a><i></i></li>

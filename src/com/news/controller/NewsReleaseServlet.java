@@ -16,7 +16,7 @@ import com.news.bean.Keywords;
 import com.news.bean.News;
 import com.news.service.IColumnService;
 import com.news.service.IKeywordsService;
-import com.news.service.INewService;
+import com.news.service.INewsService;
 import com.news.service.impl.ColumnServiceImpl;
 import com.news.service.impl.KeyServiceImpl;
 import com.news.service.impl.NewsServiceImpl;
@@ -67,7 +67,7 @@ public class NewsReleaseServlet extends HttpServlet {
 		Column column = new Column();
 		column.setColumnId(columnId);
 		News news = new News(newsTitle, newsIntro, newsContent, newsAuthor, column, newsDate, keywords);
-		INewService newService = new NewsServiceImpl();
+		INewsService newService = new NewsServiceImpl();
 		try {
 			newService.release(news);
 		} catch (Exception e) {

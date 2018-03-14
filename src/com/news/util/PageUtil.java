@@ -13,8 +13,9 @@ public class PageUtil<E> {
 	private E searchObj;		//搜索条件
 	private int totalRecords;	//符合条件的查询记录数
 	private int pageNo =  0;			//当前页的页码\第几页
-	private int pageSize = 5;		//每页多少条记录
+	private int pageSize = 3;		//每页多少条记录
 	private int totalPages;			//总页数
+	private String order = "news_date DESC ";
 		
 	public PageUtil() {
 		super();
@@ -109,6 +110,16 @@ public class PageUtil<E> {
 
 	public void setSearchObj(E searchObj) {
 		this.searchObj = searchObj;
+	}
+	
+	
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
 	}
 
 	@Override
